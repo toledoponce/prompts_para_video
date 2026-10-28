@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prompt Studio Video</title>
+  <meta name="description" content="Genera prompts optimizados para videos promocionales de productos y servicios con IA (Veo, Sora, Kling, Runway, Seedance, Luma, Hailuo).">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">▶</span>
+      <div>
+        <h1>Prompt Studio Video</h1>
+        <p>Crea prompts optimizados para videos promocionales con IA</p>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button type="button" class="btn ghost" id="btnExample">Cargar ejemplo</button>
+      <button type="button" class="btn ghost" id="btnHistory">Historial</button>
+      <button type="button" class="btn ghost" id="btnReset">Reiniciar</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="wizard" aria-label="Asistente de parámetros">
+      <nav class="stepper" id="stepper" aria-label="Pasos"></nav>
+      <form id="form" novalidate autocomplete="off">
+        <div id="steps"></div>
+      </form>
+      <div class="wizard-nav">
+        <button type="button" class="btn" id="btnPrev">← Anterior</button>
+        <span class="step-count" id="stepCount"></span>
+        <button type="button" class="btn primary" id="btnNext">Siguiente →</button>
+      </div>
+    </section>
+
+    <aside class="preview" aria-label="Prompt generado">
+      <div class="card sticky">
+        <div class="preview-head">
+          <h2>Tu prompt</h2>
+          <div class="score" id="score" title="Qué tan completo está tu prompt">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><circle class="track" cx="18" cy="18" r="15.9"/><circle class="bar" id="scoreBar" cx="18" cy="18" r="15.9"/></svg>
+            <span id="scoreValue">0%</span>
+          </div>
+        </div>
+
+        <div class="tabs" role="tablist">
+          <button type="button" role="tab" class="tab active" data-tab="prompt" aria-selected="true">Prompt</button>
+          <button type="button" role="tab" class="tab" data-tab="negative" aria-selected="false">Negativo</button>
+          <button type="button" role="tab" class="tab" data-tab="json" aria-selected="false">JSON</button>
+        </div>
+
+        <textarea id="outPrompt" class="output" spellcheck="false" aria-label="Prompt"></textarea>
+        <textarea id="outNegative" class="output hidden" spellcheck="false" aria-label="Prompt negativo"></textarea>
+        <textarea id="outJson" class="output hidden" spellcheck="false" readonly aria-label="Prompt en JSON"></textarea>
+        <p class="meta" id="outMeta"></p>
+
+        <div class="output-actions">
+          <button type="button" class="btn primary" id="btnCopy">Copiar</button>
+          <button type="button" class="btn" id="btnDownload">Descargar .txt</button>
+          <button type="button" class="btn" id="btnSave">Guardar</button>
+        </div>
+        <p class="edit-note">Puedes editar el texto directamente. Si cambias un parámetro, el prompt se regenera.</p>
+
+        <div class="advice">
+          <h3>Recomendaciones</h3>
+          <ul id="tips"></ul>
+        </div>
+
+        <div class="refs-summary hidden" id="refsSummary">
+          <h3>Imágenes a subir junto al prompt</h3>
+          <ol id="refsList"></ol>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <dialog id="historyDialog">
+    <div class="dialog-head">
+      <h2>Prompts guardados</h2>
+      <button type="button" class="btn ghost" id="btnCloseHistory" aria-label="Cerrar">✕</button>
+    </div>
+    <ul id="historyList" class="history"></ul>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/options.js"></script>
+  <script src="js/prompt.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
