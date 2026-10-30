@@ -126,7 +126,9 @@
   ];
 
   const MAX_REFS = 6;
-  let state = loadDraft() || structuredClone(DEFAULTS);
+  // En la primera visita se muestra el ejemplo para que se vea qué hace la herramienta.
+  const draft = loadDraft();
+  let state = draft || structuredClone(EXAMPLE);
   let current = 0;
   const visited = new Set([0]);
 
@@ -418,9 +420,21 @@
     });
 
     $("#btnExample").addEventListener("click", () => { setState(EXAMPLE); toast("Ejemplo cargado: sérum facial para Reels"); });
-    $("#btnReset").addEventListener("click", () => {
-      if (!confirm("¿Borrar todos los parámetros y empezar de nuevo?")) return;
+    // Confirmación en dos clics (algunos visores bloquean confirm()).
+    let resetTimer;
+    $("#btnReset").addEventListener("click", (e) => {
+      const btn = e.currentTarget;
+      if (!btn.classList.contains("confirming")) {
+        btn.classList.add("confirming");
+        btn.textContent = "¿Confirmar? Clic de nuevo";
+        resetTimer = setTimeout(() => { btn.classList.remove("confirming"); btn.textContent = "Reiniciar"; }, 4000);
+        return;
+      }
+      clearTimeout(resetTimer);
+      btn.classList.remove("confirming");
+      btn.textContent = "Reiniciar";
       setState(DEFAULTS);
+      toast("Parámetros reiniciados");
     });
   }
 
@@ -478,4 +492,5 @@
   syncForm();
   showStep(0);
   generate();
+  if (!draft) toast("Estás viendo un ejemplo. Pulsa «Reiniciar» para crear el tuyo.");
 })();
